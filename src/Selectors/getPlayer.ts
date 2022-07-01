@@ -1,0 +1,1 @@
+export const getPlayer = (store) => store.player

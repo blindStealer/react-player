@@ -1,26 +1,77 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useRef, useState } from 'react'
+import { MyReactPlayer } from './components/MyReactPlayer'
+import { PlayerMenu } from './components/PlayerMenu'
+import { PlayerPanel } from './components/PlayerPanel'
+import {
+    StyledApp,
+    StyledWrapper,
+} from './components/Styled/StyledPlayerComponents'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+    setDuration,
+    setProgressbarSmooth,
+    setSeconds,
+} from './store/reducers/PlayerReducer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    const dispatch = useDispatch()
+    const { seconds, duration, progressbarSmooth } = useSelector(
+        (state) => state.player
+    )
+
+    console.log('progressbarSmooth', progressbarSmooth)
+    const innerRef = useRef()
+
+    const onProgress = (e) => {
+        console.log(e)
+        dispatch(
+            setProgressbarSmooth(
+                e.playedSeconds - seconds >= 0 ? e.playedSeconds - seconds : 0
+            )
+        )
+
+        // loaded:
+        // loadedSeconds:
+        // played:
+        // playedSeconds:
+
+        dispatch(setSeconds(e.playedSeconds))
+    }
+
+    const onDuration = (e) => {
+        console.log('eeeeeee', e)
+        dispatch(setDuration(e))
+    }
+    const handleEnd = () => {
+        setSeconds(duration)
+    }
+
+    const handlePause = (e) => {
+        const asd = innerRef
+        console.log('pause', asd.current.getCurrentTime())
+        dispatch(setSeconds(asd.current.getCurrentTime()))
+        dispatch(setProgressbarSmooth(999999999))
+    }
+
+    return (
+        <StyledApp>
+            <StyledWrapper>
+                <MyReactPlayer
+                    onDuration={onDuration}
+                    onProgress={onProgress}
+                    handleEnd={handleEnd}
+                    ref={innerRef}
+                    handlePause={handlePause}
+                />
+                <PlayerPanel
+                    seconds={seconds}
+                    duration={duration}
+                    progressbarSmooth={progressbarSmooth}
+                />
+            </StyledWrapper>
+            <PlayerMenu />
+        </StyledApp>
+    )
 }
 
-export default App;
+export default App
