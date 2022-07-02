@@ -14,6 +14,9 @@ export const MyReactPlayer: React.FC<IProps> = ({
     handlePause,
     innerRef,
 }) => {
+
+    console.log('test git')
+
     const { videos, playing } = useSelector(getPlayer)
     const dispatch = useDispatch()
     console.log('playing', playing)
