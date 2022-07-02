@@ -10,6 +10,7 @@ export interface IState {
     seconds: string | number
     duration: string | number
     progressbarSmooth: string | number
+    percents: string | number
 }
 
 const initialState: IState = {
@@ -19,6 +20,7 @@ const initialState: IState = {
     seconds: 0,
     duration: 0,
     progressbarSmooth: 0,
+    percents: 0
 }
 
 export const playerSlice = createSlice({
@@ -55,6 +57,10 @@ export const playerSlice = createSlice({
         setProgressbarSmooth: (state, action) => {
             state.progressbarSmooth = action.payload
         },
+
+        setPercents: (state,action) => {
+            state.percents = action.payload
+        }
     },
 })
 
@@ -66,5 +72,6 @@ export const {
     setSeconds,
     setDuration,
     setProgressbarSmooth,
+    setPercents
 } = playerSlice.actions
 export default playerSlice.reducer
