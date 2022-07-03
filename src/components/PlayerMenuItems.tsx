@@ -22,7 +22,6 @@ export const PlayerMenuItems = ({ item }) => {
         sliced += '...'
     }
 
-    console.log('sliced', sliced)
 
     return (
         <StyledMenuItems>

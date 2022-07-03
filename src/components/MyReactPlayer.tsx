@@ -8,21 +8,26 @@ interface IProps extends ReactPlayerProps {}
 
 
 export const MyReactPlayer: React.FC<React.PropsWithChildren<IProps>> = ({
-
+ playerRef
 }) => {
-    const {innerRef, handlePause, onDuration, removeFirstVideoHandler, playing, videos, onProgress } = usePlayer()
+    const { handlePause, onDuration, removeFirstVideoHandler, playing, videos, onProgress } = usePlayer()
+
+
+
+
+
 
     return (
         <StyledReactPlayer>
             <ReactPlayer
                 width={800}
                 height={500}
-                ref={innerRef}
+                ref={playerRef}
                 playbackRate={1}
-                onPause={handlePause}
+                controls={true}
+                onPause={() => handlePause(playerRef)}
                 onDuration={onDuration}
                 onProgress={onProgress}
-                controls={true}
                 onEnded={removeFirstVideoHandler}
                 playing={playing}
                 url={videos?.[0]?.url.url}

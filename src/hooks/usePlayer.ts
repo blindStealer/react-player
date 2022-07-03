@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {getPlayer} from "../Selectors";
-import {useRef} from "react";
+import {LegacyRef, useRef} from "react";
 import {removeFirstVideo, setDuration, setProgressbarSmooth, setSeconds} from "../store/reducers/PlayerReducer";
 
 export const usePlayer = () => {
@@ -8,9 +8,6 @@ export const usePlayer = () => {
     const dispatch = useDispatch()
 
     console.log('percents' , percents)
-
-
-    const innerRef = useRef()
 
 
     const onProgress = (e) => {
@@ -37,12 +34,8 @@ export const usePlayer = () => {
         setSeconds(duration)
     }
 
-    const handlePause = () => {
-        const asd = innerRef
-        console.log('asd.current', asd.current)
-        console.log('pause', asd.current)
-        asd.current.seekTo(0.89, 'fraction')
-        dispatch(setSeconds(asd.current.getCurrentTime()))
+    const handlePause = (myRef) => {
+        dispatch(setSeconds(myRef.current.getCurrentTime()))
         dispatch(setProgressbarSmooth(999999999))
     }
 
@@ -52,6 +45,6 @@ export const usePlayer = () => {
         dispatch(removeFirstVideo())
     }
     return {
-        innerRef, handleEnd, handlePause, onDuration, removeFirstVideoHandler,  playing, videos, onProgress
+         handleEnd, handlePause, onDuration, removeFirstVideoHandler,  playing, videos, onProgress
     }
 }
